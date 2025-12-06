@@ -38,6 +38,19 @@ fun ProductsList(
         }
     }
 
+    val displayedProducts = remember(lazyPagingItems.itemSnapshotList.items, searchQuery) {
+        if (searchQuery.isNotBlank()) {
+            lazyPagingItems.itemSnapshotList.items
+                .filterNotNull()
+                .distinctBy { it.id }
+                .filter { product ->
+                    product.title.contains(searchQuery, ignoreCase = true)
+                }
+        } else {
+            null
+        }
+    }
+
     val hasMatchingProducts = remember(lazyPagingItems.itemSnapshotList.items, searchQuery) {
         lazyPagingItems.itemSnapshotList.items.any { product ->
             product != null && (searchQuery.isBlank() || product.title.contains(searchQuery, ignoreCase = true))
@@ -49,32 +62,40 @@ fun ProductsList(
         contentPadding = PaddingValues(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(
-            count = lazyPagingItems.itemCount,
-            key = { index ->
-                "item_$index"
+        if (displayedProducts != null) {
+            items(
+                count = displayedProducts.size,
+                key = { index -> displayedProducts[index].id }
+            ) { index ->
+                val product = displayedProducts[index]
+                ProductItem(
+                    product = product,
+                    onClick = { onProductClick(product.id) }
+                )
             }
-        ) { index ->
-            val product = lazyPagingItems[index]
-            
-            if (product != null) {
-                val matchesSearch = searchQuery.isBlank() ||
-                    product.title.contains(searchQuery, ignoreCase = true)
+        } else {
+            items(
+                count = lazyPagingItems.itemCount,
+                key = { index ->
+                    "item_$index"
+                }
+            ) { index ->
+                val product = lazyPagingItems[index]
                 
-                if (matchesSearch) {
+                if (product != null) {
                     ProductItem(
                         product = product,
                         onClick = { onProductClick(product.id) }
                     )
-                }
-            } else if (searchQuery.isBlank()) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
                 }
             }
         }
@@ -105,7 +126,7 @@ fun ProductsList(
             else -> {}
         }
 
-        if (!hasMatchingProducts && lazyPagingItems.itemSnapshotList.items.isNotEmpty() && 
+        if (!hasMatchingProducts && lazyPagingItems.itemSnapshotList.items.any { it != null } && 
             lazyPagingItems.loadState.refresh !is LoadState.Loading) {
             item {
                 EmptyView(
