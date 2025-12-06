@@ -1,1 +1,0 @@
-com.example.scid_test_task.domain
