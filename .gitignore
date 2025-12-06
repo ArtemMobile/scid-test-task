@@ -20,6 +20,18 @@ release/
 build/
 **/build/
 
+# App module
+app/build/
+
+# Data module
+data/build/
+
+# Domain module
+domain/build/
+
+# Core module (если есть)
+core/build/
+
 # Local configuration file (sdk path, etc)
 local.properties
 /local.properties
