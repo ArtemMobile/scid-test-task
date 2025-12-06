@@ -1,0 +1,1 @@
+-keep,allowobfuscation,allowshrinking class com.example.scid_test_task.core.network.NetworkViewModel
