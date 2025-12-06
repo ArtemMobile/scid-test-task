@@ -1,14 +1,19 @@
 package com.example.scid_test_task.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import androidx.room.withTransaction
 import com.example.scid_test_task.data.local.dao.ProductDao
 import com.example.scid_test_task.data.local.database.AppDatabase
 import com.example.scid_test_task.data.local.entity.ProductEntity
 import com.example.scid_test_task.core.network.NetworkStateManager
+import com.example.scid_test_task.data.paging.ProductsPagingSource
 import com.example.scid_test_task.data.remote.api.FakeStoreApi
 import com.example.scid_test_task.domain.model.Product
 import com.example.scid_test_task.domain.repository.ProductRepository
 import com.example.scid_test_task.domain.util.Result
+import kotlinx.coroutines.flow.Flow
 import java.io.IOException
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -152,8 +157,24 @@ class ProductRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun refreshProducts() {
-        // Refresh handled by calling getProducts() again
+    override fun getProductsPaged(category: String?): Flow<PagingData<Product>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = false,
+                initialLoadSize = 10,
+                prefetchDistance = 5
+            ),
+            pagingSourceFactory = {
+                ProductsPagingSource(
+                    api = api,
+                    productDao = productDao,
+                    database = database,
+                    networkStateManager = networkStateManager,
+                    category = category
+                )
+            }
+        ).flow
     }
 }
 

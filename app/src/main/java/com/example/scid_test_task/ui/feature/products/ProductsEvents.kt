@@ -8,6 +8,5 @@ sealed class ProductsEvents : Events {
     data class SelectCategory(val category: String?) : ProductsEvents()
     data class UpdateSearchQuery(val query: String) : ProductsEvents()
     object LoadProducts : ProductsEvents()
-    object RefreshProducts : ProductsEvents()
 }
 
