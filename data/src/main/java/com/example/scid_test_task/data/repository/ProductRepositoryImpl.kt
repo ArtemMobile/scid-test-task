@@ -162,10 +162,17 @@ class ProductRepositoryImpl @Inject constructor(
             config = PagingConfig(
                 pageSize = 10,
                 enablePlaceholders = false,
-                initialLoadSize = 10
+                initialLoadSize = 10,
+                prefetchDistance = 5
             ),
             pagingSourceFactory = {
-                ProductsPagingSource(api, category)
+                ProductsPagingSource(
+                    api = api,
+                    productDao = productDao,
+                    database = database,
+                    networkStateManager = networkStateManager,
+                    category = category
+                )
             }
         ).flow
     }

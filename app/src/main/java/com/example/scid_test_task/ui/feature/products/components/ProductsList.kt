@@ -38,13 +38,10 @@ fun ProductsList(
         }
     }
 
-    val displayedProducts = remember(lazyPagingItems.itemSnapshotList.items, searchQuery) {
-        val products = lazyPagingItems.itemSnapshotList.items
-            .distinctBy { it.id }
-            .filter { product ->
-                searchQuery.isBlank() || product.title.contains(searchQuery, ignoreCase = true)
-            }
-        products
+    val hasMatchingProducts = remember(lazyPagingItems.itemSnapshotList.items, searchQuery) {
+        lazyPagingItems.itemSnapshotList.items.any { product ->
+            product != null && (searchQuery.isBlank() || product.title.contains(searchQuery, ignoreCase = true))
+        }
     }
 
     LazyColumn(
@@ -53,14 +50,33 @@ fun ProductsList(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(
-            count = displayedProducts.size,
-            key = { index -> displayedProducts[index].id }
+            count = lazyPagingItems.itemCount,
+            key = { index ->
+                "item_$index"
+            }
         ) { index ->
-            val product = displayedProducts[index]
-            ProductItem(
-                product = product,
-                onClick = { onProductClick(product.id) }
-            )
+            val product = lazyPagingItems[index]
+            
+            if (product != null) {
+                val matchesSearch = searchQuery.isBlank() ||
+                    product.title.contains(searchQuery, ignoreCase = true)
+                
+                if (matchesSearch) {
+                    ProductItem(
+                        product = product,
+                        onClick = { onProductClick(product.id) }
+                    )
+                }
+            } else if (searchQuery.isBlank()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
         }
 
         when (val appendState = lazyPagingItems.loadState.append) {
@@ -89,7 +105,8 @@ fun ProductsList(
             else -> {}
         }
 
-        if (displayedProducts.isEmpty() && lazyPagingItems.loadState.refresh !is LoadState.Loading) {
+        if (!hasMatchingProducts && lazyPagingItems.itemSnapshotList.items.isNotEmpty() && 
+            lazyPagingItems.loadState.refresh !is LoadState.Loading) {
             item {
                 EmptyView(
                     message = if (searchQuery.isNotBlank()) {
@@ -97,6 +114,14 @@ fun ProductsList(
                     } else {
                         "Товары не найдены"
                     }
+                )
+            }
+        }
+        
+        if (lazyPagingItems.itemCount == 0 && lazyPagingItems.loadState.refresh !is LoadState.Loading) {
+            item {
+                EmptyView(
+                    message = "Товары не найдены"
                 )
             }
         }
