@@ -20,9 +20,6 @@ class NetworkStateManager @Inject constructor(
         _isOnlineMode.value = enabled
     }
 
-    fun toggleOnlineMode() {
-        _isOnlineMode.value = !_isOnlineMode.value
-    }
 
     fun updateNetworkAvailability(isAvailable: Boolean) {
         _isNetworkAvailable.value = isAvailable

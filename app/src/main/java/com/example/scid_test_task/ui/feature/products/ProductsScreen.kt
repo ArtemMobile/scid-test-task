@@ -35,7 +35,6 @@ fun ProductsScreen(
             ProductsTopBar(
                 isOnlineMode = isOnlineMode,
                 isNetworkAvailable = isNetworkAvailable,
-                onToggleNetworkMode = { networkViewModel.doEvent(NetworkEvents.ToggleOnlineMode) },
                 onFavoritesClick = onFavoritesClick
             )
         }

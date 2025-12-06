@@ -21,7 +21,6 @@ class NetworkViewModel @Inject constructor(
 
     override fun doEvent(event: NetworkEvents) {
         when (event) {
-            is NetworkEvents.ToggleOnlineMode -> toggleOnlineMode()
             is NetworkEvents.SetOnlineMode -> setOnlineMode(event.enabled)
         }
     }
@@ -32,10 +31,6 @@ class NetworkViewModel @Inject constructor(
                 networkStateManager.updateNetworkAvailability(isOnline)
             }
         }
-    }
-
-    private fun toggleOnlineMode() {
-        networkStateManager.toggleOnlineMode()
     }
 
     private fun setOnlineMode(enabled: Boolean) {

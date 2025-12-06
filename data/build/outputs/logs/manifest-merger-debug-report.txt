@@ -1,16 +1,16 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\mobile\AndroidStudioProjects\scidtesttask\data\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4014962878325611363.xml:2:13-83
-INJECTED from C:\Users\mobile\AndroidStudioProjects\scidtesttask\data\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4014962878325611363.xml:2:13-83
+ADDED from C:\Users\mobile\AndroidStudioProjects\scidtesttask\data\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest16643338792446523390.xml:2:13-83
+INJECTED from C:\Users\mobile\AndroidStudioProjects\scidtesttask\data\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest16643338792446523390.xml:2:13-83
 	package
-		INJECTED from C:\Users\mobile\AndroidStudioProjects\scidtesttask\data\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4014962878325611363.xml
+		INJECTED from C:\Users\mobile\AndroidStudioProjects\scidtesttask\data\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest16643338792446523390.xml
 	xmlns:android
-		ADDED from C:\Users\mobile\AndroidStudioProjects\scidtesttask\data\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4014962878325611363.xml:2:23-81
+		ADDED from C:\Users\mobile\AndroidStudioProjects\scidtesttask\data\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest16643338792446523390.xml:2:23-81
 uses-sdk
-INJECTED from C:\Users\mobile\AndroidStudioProjects\scidtesttask\data\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4014962878325611363.xml reason: use-sdk injection requested
-INJECTED from C:\Users\mobile\AndroidStudioProjects\scidtesttask\data\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4014962878325611363.xml
-INJECTED from C:\Users\mobile\AndroidStudioProjects\scidtesttask\data\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4014962878325611363.xml
+INJECTED from C:\Users\mobile\AndroidStudioProjects\scidtesttask\data\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest16643338792446523390.xml reason: use-sdk injection requested
+INJECTED from C:\Users\mobile\AndroidStudioProjects\scidtesttask\data\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest16643338792446523390.xml
+INJECTED from C:\Users\mobile\AndroidStudioProjects\scidtesttask\data\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest16643338792446523390.xml
 	android:targetSdkVersion
-		INJECTED from C:\Users\mobile\AndroidStudioProjects\scidtesttask\data\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4014962878325611363.xml
+		INJECTED from C:\Users\mobile\AndroidStudioProjects\scidtesttask\data\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest16643338792446523390.xml
 	android:minSdkVersion
-		INJECTED from C:\Users\mobile\AndroidStudioProjects\scidtesttask\data\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4014962878325611363.xml
+		INJECTED from C:\Users\mobile\AndroidStudioProjects\scidtesttask\data\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest16643338792446523390.xml

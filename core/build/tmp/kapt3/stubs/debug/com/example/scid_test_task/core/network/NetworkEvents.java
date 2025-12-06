@@ -1,6 +1,6 @@
 package com.example.scid_test_task.core.network;
 
-@kotlin.Metadata(mv = {2, 2, 0}, k = 1, xi = 48, d1 = {"\u0000\u0016\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0004\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\b6\u0018\u00002\u00020\u0001:\u0002\u0004\u0005B\t\b\u0004\u00a2\u0006\u0004\b\u0002\u0010\u0003\u0082\u0001\u0002\u0006\u0007\u00a8\u0006\b"}, d2 = {"Lcom/example/scid_test_task/core/network/NetworkEvents;", "Lcom/example/scid_test_task/core/mvi/Events;", "<init>", "()V", "ToggleOnlineMode", "SetOnlineMode", "Lcom/example/scid_test_task/core/network/NetworkEvents$SetOnlineMode;", "Lcom/example/scid_test_task/core/network/NetworkEvents$ToggleOnlineMode;", "core_debug"})
+@kotlin.Metadata(mv = {2, 2, 0}, k = 1, xi = 48, d1 = {"\u0000\u0012\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0000\b6\u0018\u00002\u00020\u0001:\u0001\u0004B\t\b\u0004\u00a2\u0006\u0004\b\u0002\u0010\u0003\u0082\u0001\u0001\u0005\u00a8\u0006\u0006"}, d2 = {"Lcom/example/scid_test_task/core/network/NetworkEvents;", "Lcom/example/scid_test_task/core/mvi/Events;", "<init>", "()V", "SetOnlineMode", "Lcom/example/scid_test_task/core/network/NetworkEvents$SetOnlineMode;", "core_debug"})
 public abstract class NetworkEvents implements com.example.scid_test_task.core.mvi.Events {
     
     private NetworkEvents() {
@@ -42,15 +42,6 @@ public abstract class NetworkEvents implements com.example.scid_test_task.core.m
         @org.jetbrains.annotations.NotNull()
         public java.lang.String toString() {
             return null;
-        }
-    }
-    
-    @kotlin.Metadata(mv = {2, 2, 0}, k = 1, xi = 48, d1 = {"\u0000\f\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0003\b\u00c6\u0002\u0018\u00002\u00020\u0001B\t\b\u0002\u00a2\u0006\u0004\b\u0002\u0010\u0003\u00a8\u0006\u0004"}, d2 = {"Lcom/example/scid_test_task/core/network/NetworkEvents$ToggleOnlineMode;", "Lcom/example/scid_test_task/core/network/NetworkEvents;", "<init>", "()V", "core_debug"})
-    public static final class ToggleOnlineMode extends com.example.scid_test_task.core.network.NetworkEvents {
-        @org.jetbrains.annotations.NotNull()
-        public static final com.example.scid_test_task.core.network.NetworkEvents.ToggleOnlineMode INSTANCE = null;
-        
-        private ToggleOnlineMode() {
         }
     }
 }

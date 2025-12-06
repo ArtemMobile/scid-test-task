@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Wifi
+import androidx.compose.material.icons.filled.WifiOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,7 +16,6 @@ import androidx.compose.ui.unit.dp
 fun NetworkModeSwitch(
     isOnlineMode: Boolean,
     isNetworkAvailable: Boolean,
-    onToggle: () -> Unit
 ) {
     Row(
         modifier = Modifier.padding(horizontal = 8.dp),
@@ -22,14 +23,9 @@ fun NetworkModeSwitch(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Icon(
-            imageVector = if (isNetworkAvailable) Icons.Filled.Check else Icons.Default.Clear,
+            imageVector = if (isNetworkAvailable) Icons.Filled.Wifi else Icons.Default.WifiOff,
             contentDescription = if (isNetworkAvailable) "Сеть доступна" else "Сеть недоступна",
             tint = if (isNetworkAvailable) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
-        )
-        Switch(
-            checked = isOnlineMode,
-            onCheckedChange = { onToggle() },
-            enabled = isNetworkAvailable
         )
         Text(
             text = if (isOnlineMode) "Online" else "Offline",

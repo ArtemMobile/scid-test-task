@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 fun ProductsTopBar(
     isOnlineMode: Boolean,
     isNetworkAvailable: Boolean,
-    onToggleNetworkMode: () -> Unit,
     onFavoritesClick: () -> Unit
 ) {
     TopAppBar(
@@ -19,7 +18,6 @@ fun ProductsTopBar(
             NetworkModeSwitch(
                 isOnlineMode = isOnlineMode,
                 isNetworkAvailable = isNetworkAvailable,
-                onToggle = onToggleNetworkMode
             )
             IconButton(onClick = onFavoritesClick) {
                 Icon(

@@ -10,19 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProductDao {
-    // *
-    @Query("SELECT * FROM products WHERE (:category IS NULL OR category = :category) ORDER BY timestamp DESC")
-//    @Query("SELECT id,title,price,description,category,image,ratingRate,ratingCount,timestamp FROM products WHERE (:category IS NULL OR category = :category) ORDER BY timestamp DESC")
-    fun getAllProducts(category: String?): PagingSource<Int, ProductEntity>
-
-    // *
-    @Query("SELECT COUNT(*) FROM products")
-//    @Query("SELECT COUNT(id) FROM products")
-    suspend fun getProductCount(): Int
-
-    // *
     @Query("SELECT COUNT(*) FROM products WHERE category = :category")
-//    @Query("SELECT COUNT(id) FROM products WHERE category = :category")
     suspend fun getProductCountByCategory(category: String): Int
 
     @Query("SELECT * FROM products WHERE id = :id")
@@ -39,13 +27,7 @@ interface ProductDao {
     
     @Query("DELETE FROM products WHERE category = :category")
     suspend fun clearProductsByCategory(category: String)
-    
-    @Query("SELECT * FROM products ORDER BY timestamp DESC LIMIT :limit OFFSET :offset")
-    suspend fun getProductsPaged(limit: Int, offset: Int): List<ProductEntity>
-    
-    @Query("SELECT * FROM products WHERE category = :category ORDER BY timestamp DESC LIMIT :limit OFFSET :offset")
-    suspend fun getProductsByCategoryPaged(category: String, limit: Int, offset: Int): List<ProductEntity>
-    
+
     @Query("SELECT * FROM products ORDER BY timestamp DESC")
     suspend fun getAllProductsList(): List<ProductEntity>
     

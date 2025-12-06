@@ -1,10 +1,12 @@
 package com.example.scid_test_task.core.network
 
+import android.Manifest
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import androidx.annotation.RequiresPermission
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -18,6 +20,7 @@ class NetworkMonitor @Inject constructor(
     private val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
+    @get:RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     val isOnline: Flow<Boolean> = callbackFlow {
         val callback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
@@ -50,7 +53,6 @@ class NetworkMonitor @Inject constructor(
 
         connectivityManager.registerNetworkCallback(networkRequest, callback)
 
-        // Отправляем текущее состояние при подписке
         val currentState = isCurrentlyOnline()
         trySend(currentState)
 
@@ -59,6 +61,7 @@ class NetworkMonitor @Inject constructor(
         }
     }
 
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun isCurrentlyOnline(): Boolean {
         val network = connectivityManager.activeNetwork ?: return false
         val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
