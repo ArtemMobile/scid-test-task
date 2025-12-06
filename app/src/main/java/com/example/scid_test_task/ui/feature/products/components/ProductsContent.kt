@@ -1,81 +1,23 @@
 package com.example.scid_test_task.ui.feature.products.components
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.scid_test_task.domain.model.Product
-import com.example.scid_test_task.domain.util.Result
+import kotlinx.coroutines.flow.Flow
+import androidx.paging.PagingData
 
 @Composable
 fun ProductsContent(
-    productsState: Result<List<Product>>,
-    searchQuery: String,
-    onProductClick: (Int) -> Unit,
-    onRetry: () -> Unit
-) {
-    when (productsState) {
-        is Result.Loading -> {
-            LoadingView()
-        }
-
-        is Result.Error -> {
-            ErrorView(
-                message = productsState.errorMessage,
-                onRetry = onRetry
-            )
-        }
-
-        is Result.Success -> {
-            ProductsSuccessContent(
-                products = productsState.data,
-                searchQuery = searchQuery,
-                onProductClick = onProductClick
-            )
-        }
-    }
-}
-
-@Composable
-private fun ProductsSuccessContent(
-    products: List<Product>,
+    productsPaged: Flow<PagingData<Product>>,
     searchQuery: String,
     onProductClick: (Int) -> Unit
 ) {
-    val filteredProducts = remember(products, searchQuery) {
-        if (searchQuery.isBlank()) {
-            products
-        } else {
-            products.filter {
-                it.title.contains(searchQuery, ignoreCase = true)
-            }
-        }
-    }
+    val lazyPagingItems: LazyPagingItems<Product> = productsPaged.collectAsLazyPagingItems()
 
-    if (filteredProducts.isEmpty()) {
-        EmptyView(
-            message = if (searchQuery.isNotBlank()) {
-                "По запросу \"$searchQuery\" ничего не найдено"
-            } else {
-                "Товары не найдены"
-            }
-        )
-    } else {
-        ProductsList(
-            products = filteredProducts,
-            onProductClick = onProductClick
-        )
-    }
+    ProductsList(
+        lazyPagingItems = lazyPagingItems,
+        searchQuery = searchQuery,
+        onProductClick = onProductClick
+    )
 }
-
-@Composable
-private fun LoadingView() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
