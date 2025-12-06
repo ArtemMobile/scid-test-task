@@ -10,13 +10,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil3.compose.AsyncImage
 import com.example.scid_test_task.domain.model.Product
+import com.example.scid_test_task.ui.common.ImageByUrl
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -80,11 +79,10 @@ private fun FavoriteProductItem(
                     .size(100.dp)
                     .clip(MaterialTheme.shapes.medium)
             ) {
-                AsyncImage(
-                    model = product.image,
+                ImageByUrl(
                     contentDescription = product.title,
                     modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
+                    url = product.image
                 )
             }
             Column(

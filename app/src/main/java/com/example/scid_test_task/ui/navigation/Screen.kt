@@ -13,3 +13,5 @@ sealed class Screen {
     @Serializable
     data object Favorites : Screen()
 }
+
+val fullScreenPages = listOf(Screen.ProductDetail::class)

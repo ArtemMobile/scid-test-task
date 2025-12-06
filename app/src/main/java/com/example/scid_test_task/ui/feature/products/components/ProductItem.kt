@@ -5,11 +5,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import com.example.scid_test_task.domain.model.Product
+import com.example.scid_test_task.ui.common.ImageByUrl
 
 @Composable
 fun ProductItem(
@@ -31,11 +30,12 @@ fun ProductItem(
                     .size(100.dp)
                     .clip(MaterialTheme.shapes.medium)
             ) {
-                AsyncImage(
-                    model = product.image,
+                ImageByUrl(
+//                    model = product.image,
                     contentDescription = product.title,
                     modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
+                    url = product.image
+//                    contentScale = ContentScale.Crop
                 )
             }
             Column(

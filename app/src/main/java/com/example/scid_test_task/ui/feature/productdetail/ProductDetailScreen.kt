@@ -12,13 +12,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import com.example.scid_test_task.domain.model.Product
 import com.example.scid_test_task.domain.util.Result
+import com.example.scid_test_task.ui.common.ImageByUrl
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,7 +35,8 @@ fun ProductDetailScreen(
                     Text(
                         text = when (val state  = productState) {
                             is Result.Success -> state.data.title
-                            else -> "Детали товара"
+                            is Result.Loading -> "Загрузка..."
+                            else -> ""
                         },
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -109,11 +109,10 @@ fun ProductDetailContent(
                 .fillMaxWidth()
                 .height(300.dp)
         ) {
-            AsyncImage(
-                model = product.image,
-                contentDescription = null,
+            ImageByUrl(
+                contentDescription = product.title,
                 modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Fit
+                url = product.image
             )
         }
 

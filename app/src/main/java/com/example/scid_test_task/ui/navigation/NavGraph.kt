@@ -32,10 +32,10 @@ fun NavGraph(navController: NavHostController) {
                 ProductsScreen(
                     viewModel = viewModel,
                     onProductClick = { productId ->
-                        navController.navigate(Screen.ProductDetail(productId))
+                        onNavigate(navController, NavigationAction.ToProductDetailsScreen(productId))
                     },
                     onFavoritesClick = {
-                        navController.navigate(Screen.Favorites)
+                        onNavigate(navController, NavigationAction.ToBaseScreen(Screen.Favorites))
                     }
                 )
             }
@@ -47,14 +47,14 @@ fun NavGraph(navController: NavHostController) {
                     factory.create(productDetail.productId)
                 }
                 ProductDetailScreen(
-                    onBackClick = { navController.popBackStack() },
+                    onBackClick = { onNavigate(navController, NavigationAction.NavigateBack) },
                     viewModel = viewModel
                 )
             }
             composable<Screen.Favorites> {
                 FavoritesScreen(
                     onProductClick = { productId ->
-                        navController.navigate(Screen.ProductDetail(productId))
+                        onNavigate(navController, NavigationAction.ToProductDetailsScreen(productId))
                     }
                 )
             }

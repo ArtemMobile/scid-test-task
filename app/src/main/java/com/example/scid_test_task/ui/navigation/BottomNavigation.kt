@@ -18,23 +18,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.IntSize
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.toRoute
 import androidx.compose.ui.platform.LocalResources
+import androidx.navigation.NavHostController
+import com.example.scid_test_task.ui.navigation.Screen.*
 
 @Composable
-fun BottomNavigationBar(navController: NavController) {
+fun BottomNavigationBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    val shouldShowBottomBar =
-        currentDestination?.hasRoute(Screen.Products::class) == true || currentDestination?.hasRoute(
-            Screen.Favorites::class
-        ) == true
+    val shouldShowBottomBar = fullScreenPages.none {
+        currentDestination?.hasRoute(it) == true
+    }
 
     val widthScreen = LocalResources.current.displayMetrics.widthPixels
 
@@ -60,22 +59,78 @@ fun BottomNavigationBar(navController: NavController) {
             NavigationBarItem(
                 icon = { Icon(Icons.Default.Home, contentDescription = "Товары") },
                 label = { Text("Товары") },
-                selected = navBackStackEntry?.destination?.hasRoute(Screen.Products::class) ?: false,
+                selected = navBackStackEntry?.destination?.hasRoute(Products::class)
+                    ?: false,
                 onClick = {
-                    navController.navigate(Screen.Products) {
-                        popUpTo(Screen.Products) { inclusive = true }
-                    }
+                    onBottomItemClick(navController, Products)
                 }
             )
             NavigationBarItem(
                 icon = { Icon(Icons.Default.Favorite, contentDescription = "Избранное") },
                 label = { Text("Избранное") },
-                selected = navBackStackEntry?.destination?.hasRoute(Screen.Favorites::class) ?: false,
+                selected = navBackStackEntry?.destination?.hasRoute(Favorites::class)
+                    ?: false,
                 onClick = {
-                    navController.navigate(Screen.Favorites)
+                    onBottomItemClick(navController, Favorites)
                 }
             )
         }
     }
+}
+
+private fun onBottomItemClick(
+    navController: NavHostController,
+    screen: Screen,
+) {
+    val isMenuItemSelected =
+        navController.currentBackStackEntry?.destination?.hasRoute(screen::class) == true
+
+    val navigationAction = if (isMenuItemSelected) {
+        NavigationAction.ToSameBaseScreen(screen)
+    } else {
+        NavigationAction.ToBaseScreen(screen)
+    }
+    onNavigate(navController, navigationAction)
+}
+
+fun onNavigate(navController: NavController, action: NavigationAction) {
+    when (action) {
+        is NavigationAction.ToBaseScreen -> {
+            navController.navigate(action.route) {
+                launchSingleTop = true
+                restoreState = true
+                popUpTo(navController.graph.startDestinationId) {
+                    saveState = true
+                }
+            }
+        }
+
+        is NavigationAction.ToSameBaseScreen -> {
+            navController.navigate(action.route) {
+                launchSingleTop = true
+                restoreState = true
+                popUpTo(navController.graph.startDestinationId) {
+                    saveState = true
+                }
+            }
+        }
+
+        is NavigationAction.ToProductDetailsScreen -> {
+            navController.navigate(ProductDetail(action.productId))
+        }
+
+        NavigationAction.NavigateBack -> {
+            if (navController.previousBackStackEntry != null) {
+                navController.popBackStack()
+            }
+        }
+    }
+}
+
+sealed class NavigationAction {
+    data class ToBaseScreen(val route: Screen) : NavigationAction()
+    data class ToSameBaseScreen(val route: Screen) : NavigationAction()
+    data class ToProductDetailsScreen(val productId: Int) : NavigationAction()
+    data object NavigateBack : NavigationAction()
 }
 
