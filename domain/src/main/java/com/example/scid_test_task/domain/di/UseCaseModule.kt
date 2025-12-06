@@ -1,4 +1,4 @@
-package com.example.scid_test_task.di
+package com.example.scid_test_task.domain.di
 
 import com.example.scid_test_task.domain.repository.FavoriteRepository
 import com.example.scid_test_task.domain.repository.ProductRepository

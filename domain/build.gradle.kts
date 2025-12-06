@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
@@ -27,6 +28,9 @@ android {
 
 dependencies {
     implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.paging.common)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 }
