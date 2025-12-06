@@ -15,21 +15,25 @@ fun NetworkModeSwitch(
     isOnlineMode: Boolean,
     isNetworkAvailable: Boolean,
 ) {
-    Row(
-        modifier = Modifier.padding(horizontal = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Icon(
-            imageVector = if (isNetworkAvailable) Icons.Filled.Wifi else Icons.Default.WifiOff,
-            contentDescription = if (isNetworkAvailable) "Сеть доступна" else "Сеть недоступна",
-            tint = if (isNetworkAvailable) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
-        )
-        Text(
-            text = if (isOnlineMode) "Online" else "Offline",
-            style = MaterialTheme.typography.labelSmall,
-            color = if (isOnlineMode) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
-        )
+    val isOnline = isOnlineMode && isNetworkAvailable
+    
+    if (!isOnline) {
+        Row(
+            modifier = Modifier.padding(horizontal = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Icon(
+                imageVector = if (isNetworkAvailable) Icons.Filled.Wifi else Icons.Default.WifiOff,
+                contentDescription = if (isNetworkAvailable) "Сеть доступна" else "Сеть недоступна",
+                tint = if (isNetworkAvailable) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
+            )
+            Text(
+                text = "Offline",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
     }
 }
 

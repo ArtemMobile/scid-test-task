@@ -16,11 +16,6 @@ class NetworkStateManager @Inject constructor(
     private val _isNetworkAvailable = MutableStateFlow(networkMonitor.isCurrentlyOnline())
     val isNetworkAvailable: StateFlow<Boolean> = _isNetworkAvailable.asStateFlow()
 
-    fun setOnlineMode(enabled: Boolean) {
-        _isOnlineMode.value = enabled
-    }
-
-
     fun updateNetworkAvailability(isAvailable: Boolean) {
         _isNetworkAvailable.value = isAvailable
     }
@@ -29,5 +24,3 @@ class NetworkStateManager @Inject constructor(
         return _isOnlineMode.value && _isNetworkAvailable.value
     }
 }
-
-

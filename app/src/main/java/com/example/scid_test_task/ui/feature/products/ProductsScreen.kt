@@ -8,7 +8,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.scid_test_task.domain.util.Result
-import com.example.scid_test_task.core.network.NetworkEvents
 import com.example.scid_test_task.core.network.NetworkViewModel
 import com.example.scid_test_task.ui.feature.products.components.CategoriesRow
 import com.example.scid_test_task.ui.feature.products.components.ProductsContent

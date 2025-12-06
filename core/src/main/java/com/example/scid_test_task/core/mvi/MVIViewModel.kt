@@ -7,3 +7,4 @@ abstract class MVIViewModel<E : Events> : ViewModel() {
 }
 
 
+
