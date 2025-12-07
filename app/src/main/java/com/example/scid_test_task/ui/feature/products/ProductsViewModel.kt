@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,9 +33,6 @@ class ProductsViewModel @Inject constructor(
     private val _categories = MutableStateFlow<List<String>>(emptyList())
     val categories: StateFlow<List<String>> = _categories.asStateFlow()
 
-    private val _categoriesState = MutableStateFlow<Result<List<String>>>(Result.Loading)
-    val categoriesState: StateFlow<Result<List<String>>> = _categoriesState.asStateFlow()
-
     @OptIn(ExperimentalCoroutinesApi::class)
     val productsPaged: Flow<PagingData<Product>> = _selectedCategory
         .flatMapLatest { category ->
@@ -51,18 +49,19 @@ class ProductsViewModel @Inject constructor(
             is ProductsEvents.Init -> {
                 loadCategories()
             }
-            is ProductsEvents.LoadCategories -> loadCategories()
             is ProductsEvents.SelectCategory -> selectCategory(event.category)
             is ProductsEvents.UpdateSearchQuery -> updateSearchQuery(event.query)
-            ProductsEvents.LoadProducts -> {}
+            ProductsEvents.RefreshScreen -> {
+                _searchQuery.update { "" }
+                _categories.update { emptyList() }
+                loadCategories()
+            }
         }
     }
 
     private fun loadCategories() {
         viewModelScope.launch {
-            _categoriesState.value = Result.Loading
-            _categoriesState.value = getCategoriesUseCase()
-            when (val result = _categoriesState.value) {
+            when (val result = getCategoriesUseCase()) {
                 is Result.Success -> {
                     _categories.value = result.data
                 }

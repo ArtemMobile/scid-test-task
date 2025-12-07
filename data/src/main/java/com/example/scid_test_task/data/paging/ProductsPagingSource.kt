@@ -23,6 +23,7 @@ class ProductsPagingSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Product> {
         return try {
+            var networkError: Exception? = null
             if (cachedProducts == null) {
                 val shouldUseOnline = networkStateManager.shouldUseOnlineMode()
                 
@@ -52,6 +53,7 @@ class ProductsPagingSource(
                         
                         domainProducts
                     } catch (e: Exception) {
+                        networkError = e
                         loadFromDatabase()
                     }
                 } else {
@@ -60,6 +62,14 @@ class ProductsPagingSource(
             }
 
             val allProducts = cachedProducts ?: emptyList()
+            
+            if (allProducts.isEmpty() && networkError != null) {
+                return LoadResult.Error(networkError)
+            }
+            
+            if (allProducts.isEmpty() && !networkStateManager.shouldUseOnlineMode()) {
+                return LoadResult.Error(Exception("Нет подключения к интернету и нет данных в кеше"))
+            }
             
             val startIndex = params.key ?: 0
             val pageSize = params.loadSize
@@ -99,7 +109,7 @@ class ProductsPagingSource(
                     LoadResult.Error(e)
                 }
             } catch (dbException: Exception) {
-                LoadResult.Error(e)
+                LoadResult.Error(dbException)
             }
         }
     }

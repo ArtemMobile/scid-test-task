@@ -11,13 +11,15 @@ import androidx.paging.PagingData
 fun ProductsContent(
     productsPaged: Flow<PagingData<Product>>,
     searchQuery: String,
-    onProductClick: (Int) -> Unit
+    onProductClick: (Int) -> Unit,
+    onRefresh: () -> Unit
 ) {
     val lazyPagingItems: LazyPagingItems<Product> = productsPaged.collectAsLazyPagingItems()
 
     ProductsList(
         lazyPagingItems = lazyPagingItems,
         searchQuery = searchQuery,
-        onProductClick = onProductClick
+        onProductClick = onProductClick,
+        onRefresh = onRefresh
     )
 }

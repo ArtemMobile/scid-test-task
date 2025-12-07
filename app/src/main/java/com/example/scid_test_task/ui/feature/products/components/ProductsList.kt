@@ -15,9 +15,14 @@ import com.example.scid_test_task.domain.model.Product
 fun ProductsList(
     lazyPagingItems: LazyPagingItems<Product>,
     searchQuery: String,
-    onProductClick: (Int) -> Unit
+    onProductClick: (Int) -> Unit,
+    onRefresh: () -> Unit
 ) {
-    when (val refreshState = lazyPagingItems.loadState.refresh) {
+    val refreshState = lazyPagingItems.loadState.refresh
+    val isEmpty = lazyPagingItems.itemCount == 0
+    val hasError = refreshState is LoadState.Error
+
+    when (refreshState) {
         is LoadState.Loading -> {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -27,15 +32,18 @@ fun ProductsList(
             }
             return
         }
+
         is LoadState.Error -> {
-            ErrorView(
-                message = refreshState.error.message ?: "Ошибка загрузки данных",
-                onRetry = { lazyPagingItems.retry() }
-            )
-            return
+            if (!isEmpty) {
+                ErrorView(
+                    message = refreshState.error.message ?: "Ошибка загрузки данных",
+                    onRetry = onRefresh
+                )
+                return
+            }
         }
-        else -> {
-        }
+
+        else -> {}
     }
 
     val displayedProducts = remember(lazyPagingItems.itemSnapshotList.items, searchQuery) {
@@ -43,9 +51,7 @@ fun ProductsList(
             lazyPagingItems.itemSnapshotList.items
                 .filterNotNull()
                 .distinctBy { it.id }
-                .filter { product ->
-                    product.title.contains(searchQuery, ignoreCase = true)
-                }
+                .filter { it.title.contains(searchQuery, ignoreCase = true) }
         } else {
             null
         }
@@ -81,7 +87,7 @@ fun ProductsList(
                 }
             ) { index ->
                 val product = lazyPagingItems[index]
-                
+
                 if (product != null) {
                     ProductItem(
                         product = product,
@@ -115,18 +121,20 @@ fun ProductsList(
                     }
                 }
             }
+
             is LoadState.Error -> {
                 item {
                     ErrorView(
                         message = appendState.error.message ?: "Ошибка загрузки данных",
-                        onRetry = { lazyPagingItems.retry() }
+                        onRetry = onRefresh
                     )
                 }
             }
+
             else -> {}
         }
 
-        if (!hasMatchingProducts && lazyPagingItems.itemSnapshotList.items.any { it != null } && 
+        if (!hasMatchingProducts && lazyPagingItems.itemSnapshotList.items.any { it != null } &&
             lazyPagingItems.loadState.refresh !is LoadState.Loading) {
             item {
                 EmptyView(
@@ -138,11 +146,20 @@ fun ProductsList(
                 )
             }
         }
-        
-        if (lazyPagingItems.itemCount == 0 && lazyPagingItems.loadState.refresh !is LoadState.Loading) {
+
+        if (isEmpty) {
+            val currentRefreshState = lazyPagingItems.loadState.refresh
+            val appendState = lazyPagingItems.loadState.append
+            val hasAnyError =
+                currentRefreshState is LoadState.Error || appendState is LoadState.Error || hasError
             item {
                 EmptyView(
-                    message = "Товары не найдены"
+                    message = "Товары не найдены",
+                    onRetry = if (hasAnyError) {
+                        onRefresh
+                    } else {
+                        null
+                    }
                 )
             }
         }

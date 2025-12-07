@@ -46,7 +46,7 @@ fun ProductsScreen(
             modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
             isRefreshing = isRefreshing,
             onRefresh = {
-                viewModel.doEvent(ProductsEvents.UpdateSearchQuery(""))
+                viewModel.doEvent(ProductsEvents.RefreshScreen)
                 lazyPagingItems.refresh()
             }
         ) {
@@ -73,7 +73,11 @@ fun ProductsScreen(
                 ProductsContent(
                     productsPaged = productsPaged,
                     searchQuery = searchQuery,
-                    onProductClick = onProductClick
+                    onProductClick = onProductClick,
+                    onRefresh = {
+                        viewModel.doEvent(ProductsEvents.RefreshScreen)
+                        lazyPagingItems.refresh()
+                    }
                 )
             }
         }
