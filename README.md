@@ -71,22 +71,23 @@
 ```
 scidtesttask/
 ├── app/                    # Основной модуль приложения
-│   ├── ui/                 # UI слой (Compose)
-│   │   ├── feature/        # Экраны приложения
-│   │   │   ├── products/   # Список товаров
-│   │   │   ├── productdetail/ # Детали товара
-│   │   │   └── favorites/  # Избранное
-│   │   ├── navigation/     # Навигация
-│   │   └── theme/          # Тема приложения
-│   └── di/                 # DI модули приложения
+│   └── ui/                 # UI слой (Compose)
+│       ├── theme/          # Тема приложения
+│       ├── feature/        # Экраны приложения
+│       │   ├── products/   # Список товаров
+│       │   ├── productdetail/ # Детали товара
+│       │   └── favorites/  # Избранное
+│       └── navigation/     # Система навигации и граф навигации
 │
 ├── domain/                 # Бизнес-логика
+│   ├── di/                 # DI модули
 │   ├── model/              # Доменные модели
 │   ├── repository/         # Интерфейсы репозиториев
 │   ├── usecase/            # Use cases
-│   └── util/                # Утилиты (Result wrapper)
+│   └── util/               # Утилиты (Result wrapper)
 │
 ├── data/                   # Слой данных
+│   ├── di/                 # DI модули
 │   ├── local/              # Локальное хранилище (Room)
 │   │   ├── dao/            # Data Access Objects
 │   │   ├── entity/         # Entity классы
@@ -102,4 +103,3 @@ scidtesttask/
     ├── mvi/                # MVI паттерн
     └── di/                 # DI модули
 ```
-
