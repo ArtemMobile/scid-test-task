@@ -108,3 +108,4 @@ ehthumbs.db
 Thumbs.db
 
 gradle.properties
+.idea/*
