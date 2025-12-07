@@ -9,7 +9,6 @@ interface FakeStoreApi {
     @GET("products")
     suspend fun getProducts(
         @Query("limit") limit: Int = 20,
-        @Query("offset") offset: Int = 0
     ): List<ProductDto>
 
     @GET("products/{id}")
@@ -22,7 +21,6 @@ interface FakeStoreApi {
     suspend fun getProductsByCategory(
         @Path("category") category: String,
         @Query("limit") limit: Int = 20,
-        @Query("offset") offset: Int = 0
     ): List<ProductDto>
 }
 

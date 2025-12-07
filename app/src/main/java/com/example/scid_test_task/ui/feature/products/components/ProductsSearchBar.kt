@@ -2,6 +2,7 @@ package com.example.scid_test_task.ui.feature.products.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -25,7 +26,18 @@ fun ProductsSearchBar(
                 imageVector = Icons.Default.Search,
                 contentDescription = "Поиск"
             )
-        }
+        },
+        trailingIcon = {
+            if (searchQuery.isNotBlank()) {
+                IconButton(onClick = { onSearchQueryChange("") }) {
+                    Icon(
+                        imageVector = Icons.Default.Clear,
+                        contentDescription = "Очистить"
+                    )
+                }
+            }
+        },
+        singleLine = true
     )
 }
 

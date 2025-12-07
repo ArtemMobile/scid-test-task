@@ -33,9 +33,6 @@ class ProductsViewModel @Inject constructor(
     private val _categories = MutableStateFlow<List<String>>(emptyList())
     val categories: StateFlow<List<String>> = _categories.asStateFlow()
 
-    private val _categoriesState = MutableStateFlow<Result<List<String>>>(Result.Loading)
-    val categoriesState: StateFlow<Result<List<String>>> = _categoriesState.asStateFlow()
-
     @OptIn(ExperimentalCoroutinesApi::class)
     val productsPaged: Flow<PagingData<Product>> = _selectedCategory
         .flatMapLatest { category ->
@@ -64,9 +61,7 @@ class ProductsViewModel @Inject constructor(
 
     private fun loadCategories() {
         viewModelScope.launch {
-            _categoriesState.value = Result.Loading
-            _categoriesState.value = getCategoriesUseCase()
-            when (val result = _categoriesState.value) {
+            when (val result = getCategoriesUseCase()) {
                 is Result.Success -> {
                     _categories.value = result.data
                 }

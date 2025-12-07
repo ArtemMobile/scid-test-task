@@ -34,8 +34,7 @@ fun ProductsList(
         }
 
         is LoadState.Error -> {
-            if (isEmpty) {
-            } else {
+            if (!isEmpty) {
                 ErrorView(
                     message = refreshState.error.message ?: "Ошибка загрузки данных",
                     onRetry = onRefresh
@@ -44,8 +43,7 @@ fun ProductsList(
             }
         }
 
-        else -> {
-        }
+        else -> {}
     }
 
     val displayedProducts = remember(lazyPagingItems.itemSnapshotList.items, searchQuery) {
@@ -53,9 +51,7 @@ fun ProductsList(
             lazyPagingItems.itemSnapshotList.items
                 .filterNotNull()
                 .distinctBy { it.id }
-                .filter { product ->
-                    product.title.contains(searchQuery, ignoreCase = true)
-                }
+                .filter { it.title.contains(searchQuery, ignoreCase = true) }
         } else {
             null
         }
@@ -63,10 +59,7 @@ fun ProductsList(
 
     val hasMatchingProducts = remember(lazyPagingItems.itemSnapshotList.items, searchQuery) {
         lazyPagingItems.itemSnapshotList.items.any { product ->
-            product != null && (searchQuery.isBlank() || product.title.contains(
-                searchQuery,
-                ignoreCase = true
-            ))
+            product != null && (searchQuery.isBlank() || product.title.contains(searchQuery, ignoreCase = true))
         }
     }
 
@@ -133,7 +126,7 @@ fun ProductsList(
                 item {
                     ErrorView(
                         message = appendState.error.message ?: "Ошибка загрузки данных",
-                        onRetry = { onRefresh?.invoke() }
+                        onRetry = onRefresh
                     )
                 }
             }
@@ -154,7 +147,7 @@ fun ProductsList(
             }
         }
 
-        if (isEmpty && refreshState !is LoadState.Loading) {
+        if (isEmpty) {
             val currentRefreshState = lazyPagingItems.loadState.refresh
             val appendState = lazyPagingItems.loadState.append
             val hasAnyError =
