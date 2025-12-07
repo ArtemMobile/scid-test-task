@@ -41,7 +41,10 @@ fun ProductsScreen(
         PullToRefreshBox(
             modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
             isRefreshing = productsState is Result.Loading,
-            onRefresh = { viewModel.doEvent(ProductsEvents.RefreshProducts) }
+            onRefresh = {
+                viewModel.doEvent(ProductsEvents.UpdateSearchQuery(""))
+                viewModel.doEvent(ProductsEvents.RefreshProducts)
+            }
         ) {
             Column(
                 modifier = Modifier.fillMaxSize()
