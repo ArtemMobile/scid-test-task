@@ -31,11 +31,9 @@ fun ProductItem(
                     .clip(MaterialTheme.shapes.medium)
             ) {
                 ImageByUrl(
-//                    model = product.image,
                     contentDescription = product.title,
                     modifier = Modifier.fillMaxSize(),
                     url = product.image
-//                    contentScale = ContentScale.Crop
                 )
             }
             Column(
