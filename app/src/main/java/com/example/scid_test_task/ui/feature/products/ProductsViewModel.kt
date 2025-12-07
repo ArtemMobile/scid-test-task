@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -51,10 +52,13 @@ class ProductsViewModel @Inject constructor(
             is ProductsEvents.Init -> {
                 loadCategories()
             }
-            is ProductsEvents.LoadCategories -> loadCategories()
             is ProductsEvents.SelectCategory -> selectCategory(event.category)
             is ProductsEvents.UpdateSearchQuery -> updateSearchQuery(event.query)
-            ProductsEvents.LoadProducts -> {}
+            ProductsEvents.RefreshScreen -> {
+                _searchQuery.update { "" }
+                _categories.update { emptyList() }
+                loadCategories()
+            }
         }
     }
 
